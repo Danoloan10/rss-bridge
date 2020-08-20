@@ -102,7 +102,9 @@ class Calendar {
 			!isset($eventParts['DTEND']) ||
 			!isset($eventParts['SUMMARY']))
 		{
-			throw new Exception(implode(', ', $eventParts));
+			$return = [];
+			foreach ($eventParts as $tk => $tv) $return[] = $tk.": ".$tv;
+			throw new Exception(implode(', ', $return));
 		}
 
 		// add event parts to return string
