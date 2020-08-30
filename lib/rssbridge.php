@@ -59,6 +59,8 @@ require_once PATH_LIB . 'FormatInterface.php';
 // Classes
 require_once PATH_LIB . 'FactoryAbstract.php';
 require_once PATH_LIB . 'FeedItem.php';
+require_once PATH_LIB . 'Calendar.php';
+require_once PATH_LIB . 'Event.php';
 require_once PATH_LIB . 'Debug.php';
 require_once PATH_LIB . 'Exceptions.php';
 require_once PATH_LIB . 'FormatFactory.php';

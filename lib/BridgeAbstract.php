@@ -80,6 +80,17 @@ abstract class BridgeAbstract implements BridgeInterface {
 	protected $items = array();
 
 	/**
+	 * Holds the list of events collected by the bridge
+	 *
+	 * Events must be collected by {@see BridgeInterface::collectData()}
+	 *
+	 * Use {@see BridgeAbstract::getEvents()} to access events.
+	 *
+	 * @var array
+	 */
+	protected $events = array();
+
+	/**
 	 * Holds the list of input parameters used by the bridge
 	 *
 	 * Do not access this parameter directly!
@@ -99,6 +110,11 @@ abstract class BridgeAbstract implements BridgeInterface {
 	/** {@inheritdoc} */
 	public function getItems(){
 		return $this->items;
+	}
+
+	/** {@inheritdoc} */
+	public function getEvents() {
+		return $this->events;
 	}
 
 	/**

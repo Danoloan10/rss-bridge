@@ -33,6 +33,9 @@ abstract class FormatAbstract implements FormatInterface {
 	/** @var array $items The items */
 	protected $items;
 
+	/** @var array $events The events */
+	protected $events;
+
 	/**
 	 * @var int $lastModified A timestamp to indicate the last modified time of
 	 * the output data.
@@ -132,6 +135,25 @@ abstract class FormatAbstract implements FormatInterface {
 			throw new \LogicException('Feed the ' . get_class($this) . ' with "setItems" method before !');
 
 		return $this->items;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @param array $events {@inheritdoc}
+	 */
+	public function setEvents(array $events){
+		$this->events = $events;
+
+		return $this;
+	}
+
+	/** {@inheritdoc} */
+	public function getEvents(){
+		if(!is_array($this->events))
+			throw new \LogicException('Feed the ' . get_class($this) . ' with "setEvents" method before !');
+
+		return $this->events;
 	}
 
 	/**

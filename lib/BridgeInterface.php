@@ -73,6 +73,13 @@ interface BridgeInterface {
 	public function getItems();
 
 	/**
+	 * Returns an array of collected events 
+	 *
+	 * @return array Associative array of events 
+	 */
+	public function getEvents();
+
+	/**
 	 * Returns the bridge maintainer
 	 *
 	 * @return string Bridge maintainer

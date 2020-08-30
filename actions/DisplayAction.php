@@ -98,6 +98,7 @@ class DisplayAction extends ActionAbstract {
 		$cache->purgeCache(86400); // 24 hours
 		$cache->setKey($cache_params);
 
+		$events = array();
 		$items = array();
 		$infos = array();
 		$mtime = $cache->getTime();
@@ -119,9 +120,13 @@ class DisplayAction extends ActionAbstract {
 
 			$cached = $cache->loadData();
 
-			if(isset($cached['items']) && isset($cached['extraInfos'])) {
+			if(isset($cached['items']) && isset($cached['events']) && isset($cached['extraInfos'])) {
 				foreach($cached['items'] as $item) {
 					$items[] = new \FeedItem($item);
+				}
+
+				foreach($cached['events'] as $event) {
+					$events[] = new \Event($event);
 				}
 
 				$infos = $cached['extraInfos'];
@@ -134,6 +139,7 @@ class DisplayAction extends ActionAbstract {
 				$bridge->collectData();
 
 				$items = $bridge->getItems();
+				$events = $bridge->getEvents();
 
 				// Transform "legacy" items to FeedItems if necessary.
 				// Remove this code when support for "legacy" items ends!
@@ -231,6 +237,7 @@ class DisplayAction extends ActionAbstract {
 			// Store data in cache
 			$cache->saveData(array(
 				'items' => array_map(function($i){ return $i->toArray(); }, $items),
+				'events' => array_map(function($i){ return $i->toArray(); }, $events),
 				'extraInfos' => $infos
 			));
 
@@ -242,6 +249,7 @@ class DisplayAction extends ActionAbstract {
 			$formatFac->setWorkingDir(PATH_LIB_FORMATS);
 			$format = $formatFac->create($format);
 			$format->setItems($items);
+			$format->setEvents($events);
 			$format->setExtraInfos($infos);
 			$format->setLastModified($cache->getTime());
 			$format->display();
