@@ -99,6 +99,7 @@ class DisplayAction implements ActionInterface
 
     private function createResponse(array $request, BridgeAbstract $bridge, FormatAbstract $format)
     {
+        $events = [];
         $items = [];
         $infos = [];
 
@@ -115,6 +116,14 @@ class DisplayAction implements ActionInterface
                     $feedItems[] = FeedItem::fromArray($item);
                 }
                 $items = $feedItems;
+            }
+            $events = $bridge->getEvents();
+            if (isset($events[0]) && is_array($events[0])) {
+                $feedEvents = [];
+                foreach ($events as $event) {
+                    $feedEvents[] = new FeedEvent($event);
+                }
+                $events = $feedEvents;
             }
             $infos = [
                 'name'          => $bridge->getName(),
@@ -155,6 +164,7 @@ class DisplayAction implements ActionInterface
         }
 
         $format->setItems($items);
+        $format->setEvents($events);
         $format->setExtraInfos($infos);
         $now = time();
         $format->setLastModified($now);

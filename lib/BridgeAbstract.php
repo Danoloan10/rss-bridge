@@ -22,6 +22,7 @@ abstract class BridgeAbstract
         'title'         => 'Maximum number of items to return',
     ];
 
+    protected array $events = [];
     protected array $items = [];
     protected array $inputs = [];
     protected ?string $queriedContext = '';
@@ -40,9 +41,14 @@ abstract class BridgeAbstract
 
     abstract public function collectData();
 
+
     public function getItems()
     {
         return $this->items;
+    }
+
+    public function getEvents() {
+        return $this->events;
     }
 
     public function getOption(string $name)
