@@ -8,6 +8,19 @@ class Event {
 	protected $desc = null;
 	protected $location = null;
 	protected $fill = null;
+	protected $timezone = "GMT";
+
+	protected function correctTimezone($timestamp) {
+		$offset = (new DateTime())
+			->setTimezone(new DateTimeZone($this->timezone))
+			->setTimestamp($timestamp)
+			->getOffset();
+		return $timestamp - $offset;
+	}
+
+	public function setTimezone($timezone) {
+		$this->timezone = $timezone;
+	}
 
 	/**
 	 * Get unique id
@@ -51,7 +64,7 @@ class Event {
 	 * @return string|null The current stamp or null if it hasn't been set.
 	 */
 	public function getStamp() {
-		return $this->stamp;
+		return $this->correctTimezone($this->stamp);
 	}
 
 	/**
@@ -75,7 +88,7 @@ class Event {
 	 * @return int|null The current from or null if it hasn't been set.
 	 */
 	public function getStart() {
-		return $this->start;
+		return $this->correctTimezone($this->start);
 	}
 
 	/**
@@ -107,7 +120,7 @@ class Event {
 	 * @return string|null The end or null if it hasn't been set.
 	 */
 	public function getEnd() {
-		return $this->end;
+		return $this->correctTimezone($this->end);
 	}
 
 	/**
@@ -253,6 +266,7 @@ class Event {
 			'desc' => $this->desc,
 			'location' => $this->location,
 			'fill' => $this->fill,
+			'timezone' => $this->timezone,
 		);
 	}
 	function __set($name, $value) {
@@ -265,6 +279,7 @@ class Event {
 		case 'desc': $this->setDesc($value); break;
 		case 'location': $this->setLocation($value); break;
 		case 'fill': $this->setFill($value); break;
+		case 'timezone': $this->setTimezone($value); break;
 		}
 	}
 	function __get($name) {
